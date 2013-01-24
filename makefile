@@ -6,22 +6,18 @@ CFLAGS  = -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -marm -O3 -Wall
 LD = ld
 LDFLAGS = -lrt -lstdc++
 
+OBJ = bcm2835.o RaspiLCD.o
 
-OBJ = bcm2835.o lcd.o raspilcd.o Display.o
-BIN = raspilcd
-
-gpio: $(OBJ)
-	$(CC) $(CFLAGS) -o $(BIN) $(OBJ) $(LDFLAGS)
+all: compile
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
 
 .PHONY: clean
 clean:
-	rm -rf $(BIN) $(OBJ) $(MAIN_BINARIES)
+	rm -rf $(OBJ) $(MAIN_BINARIES) RaspiLCDMain.o
+
+RaspiLCDMain: RaspiLCDMain.o $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 
 compile: $(MAIN_BINARIES)
-
-%Main: %Main.o $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
-	

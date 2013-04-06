@@ -4,9 +4,9 @@ MAIN_BINARIES = $(basename $(wildcard *Main.cpp))
 #CFLAGS  = -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -marmv6z -Wall
 CFLAGS  = -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -marm -O3 -Wall
 LD = ld
-LDFLAGS = -lrt -lstdc++
+LDFLAGS = -lrt -lstdc++ -lboost_system  -lboost_filesystem -lmpg123
 
-OBJ = bcm2835.o RaspiLCD.o
+OBJ = bcm2835.o RaspiLCD.o Library.o
 
 all: compile
 

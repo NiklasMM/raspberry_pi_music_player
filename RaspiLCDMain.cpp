@@ -19,6 +19,7 @@ int main(int argc, char** argv) {
 
   int dirChoice = 0;
   do {
+    lcd.update();
     const vector<string>& files = l.getFileList();
 
     for (size_t i = 0; i < files.size(); i++) {
@@ -38,6 +39,7 @@ int main(int argc, char** argv) {
     std::cout << "dir choice: " << dirChoice << std::endl;
 
     l.cd(dirChoice);
+    
   } while (dirChoice != 1000);
   lcd.setBacklight(false);
 }

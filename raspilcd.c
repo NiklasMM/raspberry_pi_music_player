@@ -37,6 +37,8 @@
 //                       
 // Author:      Martin Steppuhn
 // History:     18.10.2012 Initial version
+//
+// Modified by: Niklas Meinzer
 //--------------------------------------------------------------------------------------------------
 
 //=== Includes =====================================================================================
@@ -135,6 +137,21 @@ void UpdateButtons(void)
 	if(!bcm2835_gpio_lev(PinButton[4])) Button |= (1<<4);
 	
 	ButtonPressed = (Button ^ ButtonMem) & Button;			// Set by Pressing a Button
+}
+
+//--------------------------------------------------------------------------------------------------
+// Name:      getButtonStates
+// Function:  Read button states and save them to passed variables
+//            
+// Parameter: 
+// Return:    
+//--------------------------------------------------------------------------------------------------
+void getButtonStates(int* up, int* down, int* left, int* right, int* center) {
+  if (BUTTON_PRESSED_UP) *up = 1;
+  if (BUTTON_PRESSED_DOWN) *down = 1;
+  if (BUTTON_PRESSED_LEFT) *left = 1;
+  if (BUTTON_PRESSED_RIGHT) *right = 1;
+  if (BUTTON_PRESSED_CENTER) *center = 1;
 }
 
 //--------------------------------------------------------------------------------------------------

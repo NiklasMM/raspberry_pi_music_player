@@ -13,6 +13,7 @@
 extern "C" {
   int RaspiLcdHwInit(void);
   void SetBacklight(uint8 light);
+  void UpdateButtons(void);
   void LCD_Init(void);
   void LCD_ClearScreen(void);
   void LCD_SetPenColor(uint8 c);
@@ -20,6 +21,7 @@ extern "C" {
   void LCD_SetContrast(uint8 contrast);
   void LCD_PrintXY(uint8 x,uint8 y,char *s);
   void LCD_WriteFramebuffer(void);
+  void getButtonStates(int* up, int* down, int* left, int* right, int* center);
 }
 
 using std::ifstream;
@@ -27,7 +29,8 @@ using std::string;
 
 // _____________________________________________________________________________
 RaspiLCD::RaspiLCD()
- : _backlight(false) {
+ : _backlight(false), _buttonUp(0), _buttonDown(0), _buttonLeft(0), _buttonRight(0),
+   _buttonCenter(0) {
 
    // initialize the display
   if(!RaspiLcdHwInit()){
@@ -155,4 +158,14 @@ void RaspiLCD::printList(const vector<string>& lines) {
     LCD_PrintXY(0,8*i-1 + 2,const_cast<char*>(displayedString.c_str()));
   }
   LCD_WriteFramebuffer();
+}
+
+// _____________________________________________________________________________
+void RaspiLCD::update() {
+  // update buttons
+  UpdateButtons();
+  // reset button states
+  _buttonUp = 0; _buttonDown = 0; _buttonLeft = 0; _buttonRight = 0; _buttonCenter = 0;
+
+  getButtonStates(&_buttonUp, &_buttonDown, &_buttonLeft, &_buttonRight, &_buttonCenter);
 }

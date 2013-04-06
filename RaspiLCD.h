@@ -18,6 +18,9 @@ class RaspiLCD {
   // clear display
   void clear();
 
+  // updates the button state
+  void update();
+
   // writes a list of strings to the display
   // one string per line
   void printList(const vector<string>& lines);
@@ -65,6 +68,13 @@ class RaspiLCD {
   uint8	_button;
   uint8 _buttonPressed;
   uint8 _buttonMem;
+
+  // button states (0 = not pressed, 1 = pressed)
+  int _buttonUp;
+  int _buttonDown;
+  int _buttonLeft;
+  int _buttonRight;
+  int _buttonCenter;
 
   // CONSTANTS
   static const size_t PIN_LCD_BACKLIGHT	= 18;

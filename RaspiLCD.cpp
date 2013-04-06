@@ -1,5 +1,6 @@
 // Copyright 2013
 // Author: Niklas Meinzer <meinzer.niklas@gmail.com>
+// This code is open-source under the terms of the GPLv3 (see LICENSE file)
 
 #include <stdio.h>
 #include <stdlib.h>

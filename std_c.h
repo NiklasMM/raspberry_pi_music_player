@@ -40,7 +40,6 @@ typedef unsigned long     uint32;
 
 typedef unsigned long     ulong;
 
-typedef unsigned char     bool;
 
 typedef signed char       int8;
 typedef signed short      int16;

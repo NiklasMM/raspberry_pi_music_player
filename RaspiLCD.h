@@ -8,28 +8,24 @@
 #include "./font_terminal_6x8.inc"
 
 using std::vector;
+using std::string;
 
-class RaspiLDC {
+class RaspiLCD {
  public:
   // default constuctor
-  RaspiLDC();
+  RaspiLCD();
 
   // clear display
   void clear();
 
-  // writes a string to the display
-  void printLine(size_t x0, size_t, char *s);
-
-  // write framebuffer to display
-  void writeFramebuffer();
+  // writes a list of strings to the display
+  // one string per line
+  void printList(const vector<string>& lines);
 
   // Setters
   void setBacklight(bool value);
 
  private:
- 
-  // initializes the display
-  int initialize();
 
   // get Hardware revison of the pi to find the correct
   // pin assignment

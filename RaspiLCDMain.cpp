@@ -15,6 +15,8 @@ using std::string;
 int main(int argc, char** argv) {
   Library l(argv[1]);
 
+  RaspiLCD lcd;
+
   int dirChoice = 0;
   do {
     const vector<string>& files = l.getFileList();
@@ -26,6 +28,8 @@ int main(int argc, char** argv) {
         //~ system(("mpg123 \"" + file + "\"").c_str());
     }
 
+    lcd.printList(files);
+
     std::string line;
     std::getline(std::cin, line);
 
@@ -34,6 +38,6 @@ int main(int argc, char** argv) {
     std::cout << "dir choice: " << dirChoice << std::endl;
 
     l.cd(dirChoice);
-  } while (true);
-
+  } while (dirChoice != 1000);
+  lcd.setBacklight(false);
 }

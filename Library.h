@@ -12,19 +12,35 @@
 using std::vector;
 using std::string;
 
+using boost::filesystem::path;
+
 // A class that manages a music library
 class Library {
  public:
   Library(const string& basePath);
 
   // returns the files in the current directory
-  vector<string> getFileList() const;
+  const vector<string>& getFileList() const;
+
+  // changes into the i-th file of the current directory if it is a directory
+  // or to the parent directory if i == -1
+  void cd(int i);
 
  private:
   // the base path of the library
   string _basepath;
   // the current path
-  boost::filesystem::path _currentPath;
+  path _currentPath;
+
+  // the content of the current directory
+  vector<string> _currentDirFiles;
+
+  // changes into a directory specified by p
+  void cd(const path& p);
+
+  // a stack of directories containing the parents of the current directory
+  // until the base
+  vector<path> _parents;
 };
 
 #endif  // JUKEBERRY_LIBRARY_H_

@@ -15,13 +15,25 @@ using std::string;
 int main(int argc, char** argv) {
   Library l(argv[1]);
 
-  vector<string> files = l.getFileList();
+  int dirChoice = 0;
+  do {
+    const vector<string>& files = l.getFileList();
 
-  for (size_t i = 0; i < files.size(); i++) {
-    string file = files[i];
-    std::cout << files[i] << std::endl;
-    if (file.substr(file.length() - 3) == "mp3")
-      system(("mpg123 \"" + file + "\"").c_str());
-  }
-  
+    for (size_t i = 0; i < files.size(); i++) {
+      string file = files[i];
+      std::cout << files[i] << std::endl;
+      //~ if (file.substr(file.length() - 3) == "mp3")
+        //~ system(("mpg123 \"" + file + "\"").c_str());
+    }
+
+    std::string line;
+    std::getline(std::cin, line);
+
+    dirChoice = atoi(line.c_str());
+
+    std::cout << "dir choice: " << dirChoice << std::endl;
+
+    l.cd(dirChoice);
+  } while (true);
+
 }

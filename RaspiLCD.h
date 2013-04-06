@@ -77,4 +77,7 @@ class RaspiLCD {
   static const size_t LCD_WIDTH = 128;
   static const size_t LCD_HEIGHT = 64;
   static const size_t LCD_X_OFFSET = 4;
+
+  static const size_t MAX_CHARS_PER_LINE = 21;
+  static const size_t MAX_LINES_DISPLAYED = 8;
 };

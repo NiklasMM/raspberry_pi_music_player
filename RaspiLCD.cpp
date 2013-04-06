@@ -136,7 +136,23 @@ void RaspiLCD::lcd_set_xy(uint8 x,uint8 ypage)
 void RaspiLCD::printList(const vector<string>& lines) {
   LCD_ClearScreen();
 	LCD_SetFont(0);
-  char* str = const_cast<char*>(lines[0].c_str());
-	LCD_PrintXY(0,0,str);
+
+  // iterate over all lines
+  for (size_t i = 0; i < lines.size(); i++) {
+    // stop if more than MAX_LINES_DISPLAYED lines are present
+    if (i >= MAX_LINES_DISPLAYED) break;
+
+    const string& line = lines[i];
+    // only display the filename, that is after the last "/"
+    size_t lastFileSeparator = line.find_last_of("/");
+    if (lastFileSeparator == string::npos) lastFileSeparator = 0;
+    string displayedString = line.substr(lastFileSeparator + 1);
+
+    // to avoid overflow, crop the string to MAX_CHARS_PER_LINE characters
+    size_t charsDisplayed = (MAX_CHARS_PER_LINE > displayedString.length())?displayedString.length():MAX_CHARS_PER_LINE;
+    displayedString = displayedString.substr(0,charsDisplayed);
+
+    LCD_PrintXY(0,8*i-1 + 2,const_cast<char*>(displayedString.c_str()));
+  }
   LCD_WriteFramebuffer();
 }

@@ -89,6 +89,7 @@ void Library::cd(const path& p) {
   _currentDirFiles.clear();
 
   for(directory_iterator it(_currentPath); it != directory_iterator(); ++it) {
-    _currentDirFiles.push_back((*it).path().native());
+    path newPath = boost::filesystem::canonical((*it).path());
+    _currentDirFiles.push_back(newPath.native());
   }
 }

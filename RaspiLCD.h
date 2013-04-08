@@ -6,6 +6,7 @@
 
 #include <stdlib.h>
 #include <vector>
+#include <chrono>
 #include "./definitions.h"
 #include "./font_terminal_6x8.inc"
 
@@ -75,6 +76,12 @@ class RaspiLCD {
   uint8	_button;
   uint8 _buttonPressed;
   uint8 _buttonMem;
+
+  // this variable stores the text scrolling position that was used in the last
+  // cycle
+  size_t _lastScrollPos;
+  std::chrono::high_resolution_clock::time_point _lastScrollTime;
+  
 
   // button states (0 = not pressed, 1 = pressed)
   int _buttonUp;

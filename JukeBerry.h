@@ -5,11 +5,13 @@
 #define JUKEBERRY_JUKEBERRY_H
 
 #include <string>
+#include <vector>
 
 #include "./RaspiLCD.h"
 #include "./Library.h"
 
 using std::string;
+using std::vector;
 
 // This is the main class of the JukeBerry Project. It holds an instance of
 // classes like RaspiLCD and Library and manages them.
@@ -30,6 +32,10 @@ class JukeBerry {
 
   RaspiLCD _display;
   Library _library;
+
+  vector<string> _currentFiles;
+
+  size_t _selectedFile;
 
 };
 

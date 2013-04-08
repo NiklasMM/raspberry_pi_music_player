@@ -12,7 +12,7 @@
 
 // _____________________________________________________________________________
 JukeBerry::JukeBerry(const string& path) :
-  _library(Library(path)){
+  _library(Library(path)), _selectedFile(0){
   
 }
 
@@ -28,8 +28,27 @@ void JukeBerry::start() {
 
 // _____________________________________________________________________________
 void JukeBerry::update() {
+  _display.update();
+
+  // update the selected File
+  if (_display.buttonPressed(DOWN)) _selectedFile++;
+  if (_display.buttonPressed(UP)) _selectedFile--;
+
+  // if center is pressed enter directory
+  if (_display.buttonPressed(CENTER)) _library.cd(_selectedFile);
+
+  // if left button is pressed go one directory up
+  if (_display.buttonPressed(LEFT)) _library.cd(-1);
 }
 
 // _____________________________________________________________________________
 void JukeBerry::draw() {
+      const vector<string>& files = _library.getFileList();
+
+    for (size_t i = 0; i < files.size(); i++) {
+      string file = files[i];
+      std::cout << files[i] << std::endl;
+    }
+
+    _display.printList(files, _selectedFile);
 }

@@ -4,41 +4,14 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
-#include "./RaspiLCD.h"
-#include "./Library.h"
+#include "./JukeBerry.h"
 
 
 using std::vector;
 using std::string;
 
 int main(int argc, char** argv) {
-  Library l(argv[1]);
+  JukeBerry jb(argv[1]);
 
-  RaspiLCD lcd;
-
-  int dirChoice = 0;
-  do {
-    lcd.update();
-    const vector<string>& files = l.getFileList();
-
-    for (size_t i = 0; i < files.size(); i++) {
-      string file = files[i];
-      std::cout << files[i] << std::endl;
-      //~ if (file.substr(file.length() - 3) == "mp3")
-        //~ system(("mpg123 \"" + file + "\"").c_str());
-    }
-
-    lcd.printList(files);
-
-    std::string line;
-    std::getline(std::cin, line);
-
-    dirChoice = atoi(line.c_str());
-
-    std::cout << "dir choice: " << dirChoice << std::endl;
-
-    l.cd(dirChoice);
-    
-  } while (dirChoice != 1000);
-  lcd.setBacklight(false);
+  jb.start();
 }

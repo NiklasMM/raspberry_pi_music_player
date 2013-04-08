@@ -12,6 +12,8 @@
 using std::vector;
 using std::string;
 
+enum RaspiLcdButtons {UP, DOWN, LEFT, RIGHT, CENTER};
+
 class RaspiLCD {
  public:
   // default constuctor
@@ -25,10 +27,13 @@ class RaspiLCD {
 
   // writes a list of strings to the display
   // one string per line
-  void printList(const vector<string>& lines);
+  void printList(const vector<string>& lines, int selected = -1);
 
   // Setters
   void setBacklight(bool value);
+
+  // returns true if the button was pressed
+  bool buttonPressed(RaspiLcdButtons button) const;
 
  private:
 
@@ -90,7 +95,7 @@ class RaspiLCD {
   static const size_t LCD_HEIGHT = 64;
   static const size_t LCD_X_OFFSET = 4;
 
-  static const size_t MAX_CHARS_PER_LINE = 21;
+  static const size_t MAX_CHARS_PER_LINE = 20;
   static const size_t MAX_LINES_DISPLAYED = 8;
 };
 

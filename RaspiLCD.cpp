@@ -10,19 +10,7 @@
 #include "./RaspiLCD.h"
 #include "./bcm2835.h"
 
-extern "C" {
-  int RaspiLcdHwInit(void);
-  void SetBacklight(uint8 light);
-  void UpdateButtons(void);
-  void LCD_Init(void);
-  void LCD_ClearScreen(void);
-  void LCD_SetPenColor(uint8 c);
-  void LCD_SetFont(uint8 f);
-  void LCD_SetContrast(uint8 contrast);
-  void LCD_PrintXY(uint8 x,uint8 y,char *s);
-  void LCD_WriteFramebuffer(void);
-  void getButtonStates(int* up, int* down, int* left, int* right, int* center);
-}
+#include "./cFunctions.h"
 
 using std::ifstream;
 using std::string;
@@ -136,7 +124,7 @@ void RaspiLCD::lcd_set_xy(uint8 x,uint8 ypage)
 }
 
 // _____________________________________________________________________________
-void RaspiLCD::printList(const vector<string>& lines) {
+void RaspiLCD::printList(const vector<string>& lines, int selected) {
   LCD_ClearScreen();
 	LCD_SetFont(0);
 
@@ -155,6 +143,13 @@ void RaspiLCD::printList(const vector<string>& lines) {
     size_t charsDisplayed = (MAX_CHARS_PER_LINE > displayedString.length())?displayedString.length():MAX_CHARS_PER_LINE;
     displayedString = displayedString.substr(0,charsDisplayed);
 
+    // print a ">" in front of the selected file
+    if (selected == static_cast<int>(i)) {
+      displayedString = ">" + displayedString;
+    } else {
+      displayedString = " " + displayedString;
+    }
+
     LCD_PrintXY(0,8*i-1 + 2,const_cast<char*>(displayedString.c_str()));
   }
   LCD_WriteFramebuffer();
@@ -168,4 +163,27 @@ void RaspiLCD::update() {
   _buttonUp = 0; _buttonDown = 0; _buttonLeft = 0; _buttonRight = 0; _buttonCenter = 0;
 
   getButtonStates(&_buttonUp, &_buttonDown, &_buttonLeft, &_buttonRight, &_buttonCenter);
+}
+
+
+// _____________________________________________________________________________
+bool RaspiLCD::buttonPressed(RaspiLcdButtons button) const {
+  switch (button) {
+    case UP:
+      return (_buttonUp == 1);
+      break;
+    case DOWN:
+      return (_buttonDown == 1);
+      break;
+    case LEFT:
+      return (_buttonLeft == 1);
+      break;
+    case RIGHT:
+      return (_buttonRight == 1);
+    case CENTER:
+      return (_buttonCenter == 1);
+      break;
+    default:
+      return false;
+  }
 }

@@ -1,6 +1,8 @@
-// Copyright 2013
 // Author: Niklas Meinzer <meinzer.niklas@gmail.com>
 // This code is open-source under the terms of the GPLv3 (see LICENSE file)
+
+#ifndef JUKEBERRY_RASPILCD_H_
+#define JUKEBERRY_RASPILCD_H_
 
 #include <stdlib.h>
 #include <vector>
@@ -91,3 +93,5 @@ class RaspiLCD {
   static const size_t MAX_CHARS_PER_LINE = 21;
   static const size_t MAX_LINES_DISPLAYED = 8;
 };
+
+#endif // JUKEBERRY_RASPILCD_H_

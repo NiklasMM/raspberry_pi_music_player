@@ -3,12 +3,12 @@
 
 
 #include <string>
+#include <thread>
 
 #include "./bcm2835.h"
 #include "./JukeBerry.h"
 #include "./RaspiLCD.h"
 #include "./Library.h"
-
 
 // _____________________________________________________________________________
 JukeBerry::JukeBerry(const string& path) :
@@ -35,7 +35,17 @@ void JukeBerry::update() {
   if (_display.buttonPressed(UP)) _selectedFile--;
 
   // if center is pressed enter directory
-  if (_display.buttonPressed(CENTER)) _library.cd(_selectedFile);
+  if (_display.buttonPressed(CENTER)) {
+    const vector<string>& files = _library.getFileList();
+    const string& cf = files[_selectedFile];
+    if (cf.substr(cf.length() - 3) == "mp3") {
+      _player.play(cf);
+    } else {
+      _library.cd(_selectedFile);
+    }
+  }
+
+  if (_display.buttonPressed(RIGHT)) _player.stop();
 
   // if left button is pressed go one directory up
   if (_display.buttonPressed(LEFT)) _library.cd(-1);

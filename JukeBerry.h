@@ -9,6 +9,7 @@
 
 #include "./RaspiLCD.h"
 #include "./Library.h"
+#include "./Player.h"
 
 using std::string;
 using std::vector;
@@ -32,10 +33,12 @@ class JukeBerry {
 
   RaspiLCD _display;
   Library _library;
+  Player _player;
 
   vector<string> _currentFiles;
 
   size_t _selectedFile;
+
 
 };
 

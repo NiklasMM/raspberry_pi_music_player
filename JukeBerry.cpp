@@ -55,10 +55,10 @@ void JukeBerry::update() {
 void JukeBerry::draw() {
       const vector<string>& files = _library.getFileList();
 
-    for (size_t i = 0; i < files.size(); i++) {
-      string file = files[i];
-      std::cout << files[i] << std::endl;
-    }
+    //~ for (size_t i = 0; i < files.size(); i++) {
+      //~ string file = files[i];
+      //~ std::cout << files[i] << std::endl;
+    //~ }
 
     _display.printList(files, _selectedFile);
 }

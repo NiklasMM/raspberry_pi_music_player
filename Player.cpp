@@ -11,12 +11,13 @@
 
 // _____________________________________________________________________________
 Player::Player() :
- _stopFlag(false) {
+ _stopFlag(false), _playerThread(NULL) {
 
 }
 
 // _____________________________________________________________________________
 void Player::play(const string& file) {
+  if (_playerThread != NULL) stop();
   // create thread
   _playerThread = new std::thread(&Player::playInAThread, this,  file);
   

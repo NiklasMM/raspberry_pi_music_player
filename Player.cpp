@@ -26,9 +26,15 @@ void Player::play(const string& file) {
 // _____________________________________________________________________________
 void Player::stop() {
   if (_playerThread != NULL) {
+    // set the stop flag which asks the player thread to stop playback and
+    // terminate
     _stopFlag = true;
+    // wait for the thread to actually terminate
     _playerThread->join();
+    // destroy the thread and set the thread pointer to NULL
     delete _playerThread;
+    _playerThread = NULL;
+    // reset the stop Flag
     _stopFlag = false;
   }
 }

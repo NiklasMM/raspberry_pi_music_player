@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <chrono>
+#include <string>
 #include "./definitions.h"
 #include "./font_terminal_6x8.inc"
 

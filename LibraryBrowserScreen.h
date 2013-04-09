@@ -1,0 +1,36 @@
+// Author: Niklas Meinzer <meinzer.niklas@gmail.com>
+// This code is open-source under the terms of the GPLv3 (see LICENSE file)
+
+#ifndef JUKEBERRY_LIBRARYBROWSERSCREEN_H_
+#define JUKEBERRY_LIBRARYBROWSERSCREEN_H_
+
+#include "./Library.h"
+#include "./RaspiLCD.h"
+#include "./Screen.h"
+#include "./Player.h"
+
+
+// This class represents a Screen that is used to browse the library and select
+// songs to play
+class LibraryBrowserScreen: public Screen {
+ public:
+  LibraryBrowserScreen(RaspiLCD& display, Library& lib, Player& player);
+  // implementation of the update method
+  virtual void update();
+  // implementation of the draw method
+  virtual void draw();
+ private:
+  // requests the files in the current directory from the Library and
+  // updates _currentFiles
+  void updateCurrentFiles();
+ 
+  Library& _library;
+  Player& _player;
+
+  // the files in the current directory
+  vector<string> _currentFiles;
+  // the currently selected file
+  size_t _selectedFile;
+};
+
+#endif // JUKEBERRY_LIBRARYBROWSERSCREEN_H_

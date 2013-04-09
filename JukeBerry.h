@@ -10,6 +10,7 @@
 #include "./RaspiLCD.h"
 #include "./Library.h"
 #include "./Player.h"
+#include "./Screen.h"
 
 using std::string;
 using std::vector;
@@ -35,10 +36,10 @@ class JukeBerry {
   Library _library;
   Player _player;
 
-  vector<string> _currentFiles;
-
-  size_t _selectedFile;
-
+  // a list of all screens
+  vector<Screen*> _screens;
+  // the currently active screen
+  size_t _activeScreen;
 
 };
 

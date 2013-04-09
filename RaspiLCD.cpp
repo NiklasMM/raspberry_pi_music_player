@@ -1,4 +1,3 @@
-// Copyright 2013
 // Author: Niklas Meinzer <meinzer.niklas@gmail.com>
 // This code is open-source under the terms of the GPLv3 (see LICENSE file)
 
@@ -7,7 +6,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <chrono>
 #include "./RaspiLCD.h"
 #include "./bcm2835.h"
 
@@ -15,10 +13,6 @@
 
 using std::ifstream;
 using std::string;
-using std::chrono::high_resolution_clock;
-using std::chrono::duration_cast;
-using std::chrono::microseconds;
-using std::chrono::milliseconds;
 
 // _____________________________________________________________________________
 RaspiLCD::RaspiLCD()
@@ -30,8 +24,8 @@ RaspiLCD::RaspiLCD()
     std::cerr << "RaspiLcdHwInit() failed!\r\n";
   }
 
-  LCD_Init();			// Init Display
-	setBacklight(true);	// Turn Backlight on
+  LCD_Init();			    // Initialize Display
+  setBacklight(true);	// Turn Backlight on
 }
 
 // _____________________________________________________________________________
@@ -139,34 +133,13 @@ void RaspiLCD::printList(const vector<string>& lines, int selected) {
     if (i >= MAX_LINES_DISPLAYED) break;
 
     const string& line = lines[i];
-    // only display the filename, that is after the last "/"
-    size_t lastFileSeparator = line.find_last_of("/");
-    if (lastFileSeparator == string::npos) lastFileSeparator = 0;
-    string displayedString = line.substr(lastFileSeparator + 1);
+
+    string displayedString = line;
 
     // if a string is longer than the display is wide, use horizontal scrolling
     // to make the whole name readable
     if (displayedString.length() > MAX_CHARS_PER_LINE) {
-      if (static_cast<int>(i) == selected) {
-        // take the current time
-        auto now = high_resolution_clock::now();
-        auto used = now - _lastScrollTime;
-        double timePassed = duration_cast<milliseconds>(used).count();
-        // only scroll every 300 milliseconds
-        if (timePassed > 300) {
-          // the number of scroll positions is equal to the number of characters that
-          // the string is longer than the display
-          size_t scrollPositions = displayedString.length() - MAX_CHARS_PER_LINE;
-          _lastScrollPos++;
-          if (_lastScrollPos > scrollPositions) _lastScrollPos = 0;
-          _lastScrollTime = now;
-        }        
-        // crop the string
-        displayedString = displayedString.substr(_lastScrollPos, MAX_CHARS_PER_LINE);
-      } else {
-        // for unselected files just display the beginning
-        displayedString = displayedString.substr(0, MAX_CHARS_PER_LINE);
-      }
+      displayedString = displayedString.substr(0, MAX_CHARS_PER_LINE);
     }
     // print a ">" in front of the selected file
     if (selected == static_cast<int>(i)) {
@@ -174,7 +147,6 @@ void RaspiLCD::printList(const vector<string>& lines, int selected) {
     } else {
       displayedString = " " + displayedString;
     }
-
     LCD_PrintXY(0,8*i-1 + 2,const_cast<char*>(displayedString.c_str()));
   }
   LCD_WriteFramebuffer();

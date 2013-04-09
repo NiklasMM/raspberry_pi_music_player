@@ -6,7 +6,6 @@
 
 #include <stdlib.h>
 #include <vector>
-#include <chrono>
 #include <string>
 #include "./definitions.h"
 #include "./font_terminal_6x8.inc"
@@ -30,6 +29,9 @@ class RaspiLCD {
   // writes a list of strings to the display
   // one string per line
   void printList(const vector<string>& lines, int selected = -1);
+
+  // Getters
+  size_t getMaxCharactersPerLine() const { return MAX_CHARS_PER_LINE; }
 
   // Setters
   void setBacklight(bool value);
@@ -76,13 +78,7 @@ class RaspiLCD {
   // button status variables
   uint8	_button;
   uint8 _buttonPressed;
-  uint8 _buttonMem;
-
-  // this variable stores the text scrolling position that was used in the last
-  // cycle
-  size_t _lastScrollPos;
-  std::chrono::high_resolution_clock::time_point _lastScrollTime;
-  
+  uint8 _buttonMem;  
 
   // button states (0 = not pressed, 1 = pressed)
   int _buttonUp;

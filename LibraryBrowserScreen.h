@@ -4,6 +4,8 @@
 #ifndef JUKEBERRY_LIBRARYBROWSERSCREEN_H_
 #define JUKEBERRY_LIBRARYBROWSERSCREEN_H_
 
+#include <chrono>
+
 #include "./Library.h"
 #include "./RaspiLCD.h"
 #include "./Screen.h"
@@ -29,8 +31,16 @@ class LibraryBrowserScreen: public Screen {
 
   // the files in the current directory
   vector<string> _currentFiles;
+  // the displayed version of those files
+  vector<string> _displayedFiles;
   // the currently selected file
   size_t _selectedFile;
+
+
+  // the last time a scrolling iteration occured
+  std::chrono::high_resolution_clock::time_point _lastScrollTime;
+  // the last position
+  size_t _lastScrollPos;
 };
 
 #endif // JUKEBERRY_LIBRARYBROWSERSCREEN_H_

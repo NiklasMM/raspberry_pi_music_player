@@ -11,10 +11,11 @@ using std::chrono::microseconds;
 using std::chrono::milliseconds;
 
 // _____________________________________________________________________________
-LibraryBrowserScreen::LibraryBrowserScreen(RaspiLCD& display, Library& lib,
-  Player& player) : Screen(display), _library(lib), _player(player),
-                    _selectedFile(0) {
-  updateCurrentFiles();
+LibraryBrowserScreen::LibraryBrowserScreen(RaspiLCD& display, JukeBerry* jb,
+                                          Library& lib, Player& player) :
+  Screen(display, jb), _library(lib), _player(player),
+    _selectedFile(0) {
+    updateCurrentFiles();
 };
 
 // _____________________________________________________________________________

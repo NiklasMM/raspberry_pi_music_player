@@ -5,13 +5,16 @@
 #define JUKEBERRY_SCREEN_H_
 
 #include "./RaspiLCD.h"
+#include "./JukeBerry.h"
+
+class JukeBerry;
 
 // This class is the base class for all screens displayed on the RaspiLCD display
 // such as a Playlist, Library browser and such...
 // Each screen must implement an update and a draw method
 class Screen {
  public:
-  Screen(RaspiLCD& display);
+  Screen(RaspiLCD& display, JukeBerry* jb);
   // the update method which handles all the logic
   virtual void update() = 0;
   // the draw method which handles all drawing on the
@@ -20,6 +23,8 @@ class Screen {
   // a reference to the RaspiLCD class used for button state queries and
   // drawing
   RaspiLCD& _raspiLcd;
+
+  JukeBerry* _jukeBerry;
 };
 
 

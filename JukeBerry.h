@@ -12,6 +12,8 @@
 #include "./Player.h"
 #include "./Screen.h"
 
+class Screen;
+
 using std::string;
 using std::vector;
 
@@ -24,6 +26,9 @@ class JukeBerry {
 
   // this method starts the JukeBerry
   void start();
+
+  // this method terminates the program
+  void requestTermination();
 
  private:
   // this method is called once per iteration and handles all the logic
@@ -40,6 +45,10 @@ class JukeBerry {
   vector<Screen*> _screens;
   // the currently active screen
   size_t _activeScreen;
+
+  // if true the program terminates
+  // is set in stop()
+  bool _terminate;
 
 };
 

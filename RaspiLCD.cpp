@@ -188,3 +188,11 @@ bool RaspiLCD::buttonPressed(RaspiLcdButtons button) const {
 void RaspiLCD::drawBuffer() const {
   LCD_WriteFramebuffer();
 }
+
+// _____________________________________________________________________________
+void RaspiLCD::shutdown() {
+  LCD_ClearScreen();
+  LCD_WriteFramebuffer();
+  _backlight = false;
+  SetBacklight(0);
+}

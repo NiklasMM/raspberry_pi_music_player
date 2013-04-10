@@ -42,6 +42,9 @@ class RaspiLCD {
   // returns true if the button was pressed
   bool buttonPressed(RaspiLcdButtons button) const;
 
+  // clears the screen and switches the light of
+  void shutdown();
+
  private:
 
   // get Hardware revison of the pi to find the correct

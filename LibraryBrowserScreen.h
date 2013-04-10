@@ -16,7 +16,7 @@
 // songs to play
 class LibraryBrowserScreen: public Screen {
  public:
-  LibraryBrowserScreen(RaspiLCD& display, Library& lib, Player& player);
+  LibraryBrowserScreen(RaspiLCD& display, JukeBerry* jb,  Library& lib, Player& player);
   // implementation of the update method
   virtual void update();
   // implementation of the draw method

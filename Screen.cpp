@@ -5,5 +5,5 @@
 #include "./Screen.h"
 
 // _____________________________________________________________________________
-Screen::Screen(RaspiLCD& display) :
-  _raspiLcd(display) { }
+Screen::Screen(RaspiLCD& display, JukeBerry* jb) :
+  _raspiLcd(display), _jukeBerry(jb){ }

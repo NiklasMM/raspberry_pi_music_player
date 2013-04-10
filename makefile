@@ -7,7 +7,7 @@ CXXFLAGS = -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard -marm -O3 -std=c++11 -
 LD = ld
 LDFLAGS = -lrt -lstdc++ -lboost_system  -lboost_filesystem -lmpg123 -lao
 
-OBJ = bcm2835.o RaspiLCD.o Library.o lcd.o raspilcd.o JukeBerry.o Player.o Screen.o LibraryBrowserScreen.o
+OBJ = bcm2835.o RaspiLCD.o Library.o lcd.o raspilcd.o JukeBerry.o Player.o Screen.o LibraryBrowserScreen.o MainMenuScreen.o
 
 all: compile
 

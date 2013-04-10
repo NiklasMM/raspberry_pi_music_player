@@ -30,6 +30,9 @@ class RaspiLCD {
   // one string per line
   void printList(const vector<string>& lines, int selected = -1);
 
+  // actually draw the stuff in the buffer to the screen
+  void drawBuffer() const;
+
   // Getters
   size_t getMaxCharactersPerLine() const { return MAX_CHARS_PER_LINE; }
 

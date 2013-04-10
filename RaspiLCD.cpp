@@ -149,7 +149,6 @@ void RaspiLCD::printList(const vector<string>& lines, int selected) {
     }
     LCD_PrintXY(0,8*i-1 + 2,const_cast<char*>(displayedString.c_str()));
   }
-  LCD_WriteFramebuffer();
 }
 
 // _____________________________________________________________________________
@@ -183,4 +182,9 @@ bool RaspiLCD::buttonPressed(RaspiLcdButtons button) const {
     default:
       return false;
   }
+}
+
+// _____________________________________________________________________________
+void RaspiLCD::drawBuffer() const {
+  LCD_WriteFramebuffer();
 }

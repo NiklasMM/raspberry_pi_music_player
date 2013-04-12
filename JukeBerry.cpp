@@ -42,6 +42,7 @@ void JukeBerry::update() {
 
 // _____________________________________________________________________________
 void JukeBerry::draw() {
+  _display.clearBuffer();
   // draw the active screen
   _screens[_activeScreen]->draw();
   // draw what's in the buffer

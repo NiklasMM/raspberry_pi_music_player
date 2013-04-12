@@ -39,5 +39,7 @@ void MainMenuScreen::update() {
 
 // _____________________________________________________________________________
 void MainMenuScreen::draw() {
-  _raspiLcd.printList(_menuEntries, _selectedEntry);
+  _raspiLcd.printList(0, 10, _menuEntries, _selectedEntry);
+  _raspiLcd.printString(38, 0, "JukeBerry");
+  _raspiLcd.drawLine(0,9,128,9, COLOR_BLACK);
 }

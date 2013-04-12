@@ -123,14 +123,18 @@ void RaspiLCD::lcd_set_xy(uint8 x,uint8 ypage)
 }
 
 // _____________________________________________________________________________
-void RaspiLCD::printList(const vector<string>& lines, int selected) {
-  LCD_ClearScreen();
+void RaspiLCD::printList(size_t x, size_t y,
+                         const vector<string>& lines, int selected) {
 	LCD_SetFont(0);
+
+  // calculate available lines and collumns at this position
+  size_t linesDisplayed = MAX_LINES_DISPLAYED - (y/8);
+  size_t collumns = MAX_CHARS_PER_LINE - (x/6);
 
   // iterate over all lines
   for (size_t i = 0; i < lines.size(); i++) {
     // stop if more than MAX_LINES_DISPLAYED lines are present
-    if (i >= MAX_LINES_DISPLAYED) break;
+    if (i >= linesDisplayed) break;
 
     const string& line = lines[i];
 
@@ -138,8 +142,8 @@ void RaspiLCD::printList(const vector<string>& lines, int selected) {
 
     // if a string is longer than the display is wide, use horizontal scrolling
     // to make the whole name readable
-    if (displayedString.length() > MAX_CHARS_PER_LINE) {
-      displayedString = displayedString.substr(0, MAX_CHARS_PER_LINE);
+    if (displayedString.length() > collumns) {
+      displayedString = displayedString.substr(0, collumns);
     }
     // print a ">" in front of the selected file
     if (selected == static_cast<int>(i)) {
@@ -147,7 +151,7 @@ void RaspiLCD::printList(const vector<string>& lines, int selected) {
     } else {
       displayedString = " " + displayedString;
     }
-    LCD_PrintXY(0,8*i-1 + 2,const_cast<char*>(displayedString.c_str()));
+    LCD_PrintXY(0 + x,8*i-1 + 2 + y,const_cast<char*>(displayedString.c_str()));
   }
 }
 
@@ -189,10 +193,38 @@ void RaspiLCD::drawBuffer() const {
   LCD_WriteFramebuffer();
 }
 
+void RaspiLCD::clearBuffer() {
+  LCD_ClearScreen();
+}
+
 // _____________________________________________________________________________
 void RaspiLCD::shutdown() {
   LCD_ClearScreen();
   LCD_WriteFramebuffer();
   _backlight = false;
   SetBacklight(0);
+}
+
+// _____________________________________________________________________________
+void RaspiLCD::drawLine(size_t x1, size_t y1, size_t x2, size_t y2,
+                        RaspiLcdColors color) {
+  // check if the points are inside the display
+  if (x1 > 128 || x2 > 128 || y1 > 64 || y2 > 64) return;
+  LCD_SetPenColor(color);
+  LCD_DrawLine(static_cast<uint8>(x1), static_cast<uint8>(y1),
+               static_cast<uint8>(x2), static_cast<uint8>(y2));
+}
+
+// _____________________________________________________________________________
+void RaspiLCD::printString(size_t x, size_t y, const string& input) {
+  // check if the point is in the display
+  if (x > 128 || y > 64) return;
+
+  // calculate max characters at this position
+  size_t maxChars = MAX_CHARS_PER_LINE - (x/6);
+
+  string displayedString = input.substr(0, (input.length() >= maxChars)?maxChars:input.length());
+
+  LCD_PrintXY(x, y,const_cast<char*>(displayedString.c_str()));
+
 }

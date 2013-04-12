@@ -15,6 +15,8 @@ using std::string;
 
 enum RaspiLcdButtons {UP, DOWN, LEFT, RIGHT, CENTER};
 
+enum RaspiLcdColors {COLOR_TRANSPARENT = -1, COLOR_WHITE = 0, COLOR_BLACK = 1};
+
 class RaspiLCD {
  public:
   // default constuctor
@@ -27,11 +29,22 @@ class RaspiLCD {
   void update();
 
   // writes a list of strings to the display
-  // one string per line
-  void printList(const vector<string>& lines, int selected = -1);
+  // one string per line starting at (x, y)
+  void printList(size_t x, size_t y,
+                 const vector<string>& lines, int selected = -1);
+
+  // print a single string to the display
+  void printString(size_t x, size_t y, const string& input);
+
+  // draws a line from (x1, y1) to (x2, y2)
+  void drawLine(size_t x1, size_t y1, size_t x2, size_t y2,
+                RaspiLcdColors color);
 
   // actually draw the stuff in the buffer to the screen
   void drawBuffer() const;
+
+  // clears the buffer
+  void clearBuffer();
 
   // Getters
   size_t getMaxCharactersPerLine() const { return MAX_CHARS_PER_LINE; }

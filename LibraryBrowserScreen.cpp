@@ -76,7 +76,7 @@ void LibraryBrowserScreen::update() {
 
 // _____________________________________________________________________________
 void LibraryBrowserScreen::draw() {
-  _raspiLcd.printList(_displayedFiles, _selectedFile);
+  _raspiLcd.printList(0, 0, _displayedFiles, _selectedFile);
 }
 // _____________________________________________________________________________
 void LibraryBrowserScreen::updateCurrentFiles() {

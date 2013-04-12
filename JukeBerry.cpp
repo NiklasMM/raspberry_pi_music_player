@@ -16,9 +16,9 @@
 JukeBerry::JukeBerry(const string& path) :
   _library(Library(path)), _terminate(false){
   // create a new LibraryBrowserScreen and set it as active
-  _screens.push_back(new LibraryBrowserScreen(_display, this, _library, _player));
-  _screens.push_back(new MainMenuScreen(_display, this));
-  _activeScreen = 1;
+  _screens[SC_Library] = new LibraryBrowserScreen(_display, this, _library, _player);
+  _screens[SC_MainMenu] = new MainMenuScreen(_display, this);
+  _activeScreen = SC_MainMenu;
 }
 
 // _____________________________________________________________________________
@@ -51,4 +51,9 @@ void JukeBerry::draw() {
 // _____________________________________________________________________________
 void JukeBerry::requestTermination() {
   _terminate = true;
+}
+
+// _____________________________________________________________________________
+void JukeBerry::changeToScreen(ScreenEnum screen) {
+  if(_screens[screen] != NULL) _activeScreen = screen;
 }

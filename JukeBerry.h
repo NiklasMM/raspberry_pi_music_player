@@ -6,6 +6,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "./RaspiLCD.h"
 #include "./Library.h"
@@ -16,6 +17,9 @@ class Screen;
 
 using std::string;
 using std::vector;
+using std::map;
+
+enum ScreenEnum {SC_MainMenu, SC_Library, SC_Playlist};
 
 // This is the main class of the JukeBerry Project. It holds an instance of
 // classes like RaspiLCD and Library and manages them.
@@ -30,6 +34,9 @@ class JukeBerry {
   // this method terminates the program
   void requestTermination();
 
+  // changes to the given screen
+  void changeToScreen(ScreenEnum screen);
+
  private:
   // this method is called once per iteration and handles all the logic
   void update();
@@ -42,9 +49,9 @@ class JukeBerry {
   Player _player;
 
   // a list of all screens
-  vector<Screen*> _screens;
+  map<ScreenEnum, Screen*> _screens;
   // the currently active screen
-  size_t _activeScreen;
+  ScreenEnum _activeScreen;
 
   // if true the program terminates
   // is set in stop()

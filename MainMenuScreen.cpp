@@ -23,7 +23,18 @@ void MainMenuScreen::update() {
   // wrap around
   if (_selectedEntry >= _menuEntries.size()) _selectedEntry = 0;
 
-  if (_raspiLcd.buttonPressed(CENTER) && _selectedEntry == 1) _jukeBerry->requestTermination();
+  if (_raspiLcd.buttonPressed(CENTER)) {
+    switch(_selectedEntry) {
+      case 0:
+        _jukeBerry->changeToScreen(SC_Library);
+        break;
+      case 1:
+        _jukeBerry->requestTermination();
+        break;
+      default:
+        break;
+    }
+  }
 }
 
 // _____________________________________________________________________________

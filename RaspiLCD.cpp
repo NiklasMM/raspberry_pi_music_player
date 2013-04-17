@@ -228,3 +228,13 @@ void RaspiLCD::printString(size_t x, size_t y, const string& input) {
   LCD_PrintXY(x, y,const_cast<char*>(displayedString.c_str()));
 
 }
+
+// _____________________________________________________________________________
+void RaspiLCD::drawRectangle(size_t x1, size_t y1, size_t x2, size_t y2,
+                             size_t lineWidth, RaspiLcdColors fillColor,
+                             RaspiLcdColors lineColor) {
+  LCD_SetPenColor(lineColor);
+  LCD_SetFillColor(fillColor);
+
+  LCD_DrawRect(x1, y1, x2, y2, lineWidth);
+}

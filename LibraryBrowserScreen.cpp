@@ -14,12 +14,27 @@ using std::chrono::milliseconds;
 LibraryBrowserScreen::LibraryBrowserScreen(RaspiLCD& display, JukeBerry* jb,
                                           Library& lib, Player& player) :
   Screen(display, jb), _library(lib), _player(player),
-    _selectedFile(0) {
+    _selectedFile(0), _contextMenu(NULL), _contextMenuReturnValue(-1) {
     updateCurrentFiles();
 };
 
 // _____________________________________________________________________________
 void LibraryBrowserScreen::update() {
+  // if a context menu is active only update it
+  if (_contextMenu != NULL) {
+    // if the return value has been set, remove the menu and evaluate the
+    // return value
+    if (_contextMenuReturnValue != -1) {
+      delete _contextMenu;
+      _contextMenu = NULL;
+      if (_contextMenuReturnValue == 0) _player.play(_currentFiles[_selectedFile]);
+      _contextMenuReturnValue = -1;
+      return;
+    } else {
+      _contextMenu->update();
+      return;
+    }
+  }
   // update the selected File
   if (_raspiLcd.buttonPressed(DOWN)) _selectedFile++;
   if (_raspiLcd.buttonPressed(UP)) _selectedFile = (_selectedFile == 0)?
@@ -32,7 +47,11 @@ void LibraryBrowserScreen::update() {
     const string& cf = _currentFiles[_selectedFile];
     if (cf.substr(cf.length() - 3) == "mp3") {
       std::cout << "playing: " << cf << std::endl;
-      _player.play(cf);
+      vector<string> options = {"Play", "Cancel"};
+      _contextMenu = new ContextMenuScreen(_raspiLcd, _jukeBerry, options,
+                                           &_contextMenuReturnValue);
+      return;
+      //~ _player.play(cf);
     } else {
       _library.cd(_selectedFile);
       updateCurrentFiles();
@@ -77,6 +96,8 @@ void LibraryBrowserScreen::update() {
 // _____________________________________________________________________________
 void LibraryBrowserScreen::draw() {
   _raspiLcd.printList(0, 0, _displayedFiles, _selectedFile);
+  // draw context menu on top if it is present
+  if (_contextMenu != NULL) _contextMenu->draw();
 }
 // _____________________________________________________________________________
 void LibraryBrowserScreen::updateCurrentFiles() {

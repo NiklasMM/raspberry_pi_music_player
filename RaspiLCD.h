@@ -40,6 +40,11 @@ class RaspiLCD {
   void drawLine(size_t x1, size_t y1, size_t x2, size_t y2,
                 RaspiLcdColors color);
 
+  // Draws a rectangle using the given fill an line color
+  void drawRectangle(size_t x1, size_t y1, size_t x2, size_t y2,
+                     size_t lineWidth, RaspiLcdColors fillColor,
+                     RaspiLcdColors lineColor);
+
   // actually draw the stuff in the buffer to the screen
   void drawBuffer() const;
 

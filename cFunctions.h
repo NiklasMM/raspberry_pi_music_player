@@ -13,11 +13,13 @@ extern "C" {
   void LCD_Init(void);
   void LCD_ClearScreen(void);
   void LCD_SetPenColor(uint8 c);
+  void LCD_SetFillColor(uint8 c);
   void LCD_SetFont(uint8 f);
   void LCD_SetContrast(uint8 contrast);
   void LCD_PrintXY(uint8 x,uint8 y,char *s);
   void LCD_WriteFramebuffer(void);
   void LCD_DrawLine(uint8 x0,uint8 y0,uint8 x1,uint8 y1);
+  void LCD_DrawRect(uint8 x0,uint8 y0,uint8 x1,uint8 y1,uint8 line);
   void getButtonStates(int* up, int* down, int* left, int* right, int* center);
 }
 

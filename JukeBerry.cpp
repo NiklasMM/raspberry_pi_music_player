@@ -35,7 +35,7 @@ void JukeBerry::start() {
 // _____________________________________________________________________________
 void JukeBerry::update() {
   _display.update();
-
+  _player.update();
   // update the active screen
   _screens[_activeScreen]->update();
 }

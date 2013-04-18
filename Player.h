@@ -8,8 +8,12 @@
 #include <atomic>
 #include <thread>
 #include <memory>
+#include <queue>
+
 
 using std::string;
+using std::vector;
+using std::queue;
 
 class Player {
  public:
@@ -18,6 +22,13 @@ class Player {
 
   // play the given mp3 file
   void play(const string& file);
+
+  // enqueues a file in the playlist
+  void enqueue(const string& file);
+
+  // called in every update of the Jukeberry. Checks if a new song needs to
+  // be played
+  void update();
 
   // stop playing a song
   void stop();
@@ -28,7 +39,14 @@ class Player {
   // if this flag is set to true, the player thread will stop playing
   std::atomic_bool _stopFlag;
 
+  std::atomic_bool _playing;
+
+  // a pointer to the player thread, i.e. the actuall decoding and playing
+  // of the mp3 happens here
   std::unique_ptr<std::thread> _playerThread;
+
+  // a list of files to be played in the future
+  queue<string> _playlist;
 };
 
 #endif  // JUKEBERRY_PLAYER_H_

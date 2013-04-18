@@ -5,20 +5,23 @@
 #include <string>
 #include <ao/ao.h>
 #include <mpg123.h>
+#include <iostream>
 
 #include "./Player.h"
 
 
 // _____________________________________________________________________________
 Player::Player() :
- _stopFlag(false), _playerThread(nullptr) {
+ _stopFlag(false), _playing(false), _playerThread(nullptr) {
 
 }
 
 // _____________________________________________________________________________
 void Player::play(const string& file) {
   if (_playerThread != nullptr) stop();
+  _playing = true;
   // create thread
+  std::cout << "playing: " << file << std::endl;
   _playerThread.reset(new std::thread(&Player::playInAThread, this,  file));
 }
 
@@ -34,6 +37,24 @@ void Player::stop() {
     _playerThread.reset(nullptr);
     // reset the stop Flag
     _stopFlag = false;
+  }
+}
+
+// _____________________________________________________________________________
+void Player::enqueue(const string& file) {
+  _playlist.push(file);
+}
+
+// _____________________________________________________________________________
+void Player::update() {
+  // check if a song is being played
+  if (! _playing.load()) {
+    // check if songs are left in the playlist
+    if(_playlist.size() != 0) {
+      string nextSong = _playlist.front();
+      play(nextSong);
+      _playlist.pop();
+    }
   }
 }
 
@@ -83,4 +104,6 @@ void Player::playInAThread(const string& file) {
   mpg123_delete(mh);
   mpg123_exit();
   ao_shutdown();
+
+  _playing = false;
 }

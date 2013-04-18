@@ -5,13 +5,13 @@
 #define JUKEBERRY_LIBRARYBROWSERSCREEN_H_
 
 #include <chrono>
+#include <memory>
 
 #include "./Library.h"
 #include "./RaspiLCD.h"
 #include "./ContextMenuScreen.h"
 #include "./Screen.h"
 #include "./Player.h"
-
 
 
 // This class represents a Screen that is used to browse the library and select
@@ -44,7 +44,7 @@ class LibraryBrowserScreen: public Screen {
   // the last position
   size_t _lastScrollPos;
 
-  ContextMenuScreen* _contextMenu;
+  std::unique_ptr<ContextMenuScreen> _contextMenu;
   int _contextMenuReturnValue;
 };
 

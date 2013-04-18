@@ -25,7 +25,6 @@ ContextMenuScreen::ContextMenuScreen(RaspiLCD& display, JukeBerry* jb,
 // _____________________________________________________________________________
 void ContextMenuScreen::draw() {
   _raspiLcd.drawRectangle(32, 20, 127, 63, 1, COLOR_WHITE, COLOR_BLACK);
-  std::cout << "draw\n";
   _raspiLcd.printList(33, 21, _entries, _selectedEntry);
 }
 

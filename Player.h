@@ -7,6 +7,7 @@
 #include <string>
 #include <atomic>
 #include <thread>
+#include <memory>
 
 using std::string;
 
@@ -27,7 +28,7 @@ class Player {
   // if this flag is set to true, the player thread will stop playing
   std::atomic_bool _stopFlag;
 
-  std::thread* _playerThread;
+  std::unique_ptr<std::thread> _playerThread;
 };
 
 #endif  // JUKEBERRY_PLAYER_H_

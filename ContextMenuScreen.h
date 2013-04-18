@@ -18,6 +18,7 @@ class ContextMenuScreen : public Screen {
   ContextMenuScreen(RaspiLCD& display, JukeBerry* jb,
                     const vector<string>& options,
                     int* result);
+
   // implementation of the update method
   virtual void update();
   // implementation of the draw method

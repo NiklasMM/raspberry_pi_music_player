@@ -11,29 +11,27 @@
 
 // _____________________________________________________________________________
 Player::Player() :
- _stopFlag(false), _playerThread(NULL) {
+ _stopFlag(false), _playerThread(nullptr) {
 
 }
 
 // _____________________________________________________________________________
 void Player::play(const string& file) {
-  if (_playerThread != NULL) stop();
+  if (_playerThread != nullptr) stop();
   // create thread
-  _playerThread = new std::thread(&Player::playInAThread, this,  file);
-  
+  _playerThread.reset(new std::thread(&Player::playInAThread, this,  file));
 }
 
 // _____________________________________________________________________________
 void Player::stop() {
-  if (_playerThread != NULL) {
+  if (_playerThread != nullptr) {
     // set the stop flag which asks the player thread to stop playback and
     // terminate
     _stopFlag = true;
     // wait for the thread to actually terminate
     _playerThread->join();
     // destroy the thread and set the thread pointer to NULL
-    delete _playerThread;
-    _playerThread = NULL;
+    _playerThread.reset(nullptr);
     // reset the stop Flag
     _stopFlag = false;
   }

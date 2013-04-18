@@ -15,6 +15,8 @@ class JukeBerry;
 class Screen {
  public:
   Screen(RaspiLCD& display, JukeBerry* jb);
+  // a virtual destructor
+  ~Screen();
   // the update method which handles all the logic
   virtual void update() = 0;
   // the draw method which handles all drawing on the

@@ -14,19 +14,18 @@ using std::chrono::milliseconds;
 LibraryBrowserScreen::LibraryBrowserScreen(RaspiLCD& display, JukeBerry* jb,
                                           Library& lib, Player& player) :
   Screen(display, jb), _library(lib), _player(player),
-    _selectedFile(0), _contextMenu(NULL), _contextMenuReturnValue(-1) {
+    _selectedFile(0), _contextMenu(nullptr), _contextMenuReturnValue(-1) {
     updateCurrentFiles();
 };
 
 // _____________________________________________________________________________
 void LibraryBrowserScreen::update() {
   // if a context menu is active only update it
-  if (_contextMenu != NULL) {
+  if (_contextMenu != nullptr) {
     // if the return value has been set, remove the menu and evaluate the
     // return value
     if (_contextMenuReturnValue != -1) {
-      delete _contextMenu;
-      _contextMenu = NULL;
+      _contextMenu.reset(nullptr);
       if (_contextMenuReturnValue == 0) _player.play(_currentFiles[_selectedFile]);
       _contextMenuReturnValue = -1;
       return;
@@ -48,8 +47,8 @@ void LibraryBrowserScreen::update() {
     if (cf.substr(cf.length() - 3) == "mp3") {
       std::cout << "playing: " << cf << std::endl;
       vector<string> options = {"Play", "Cancel"};
-      _contextMenu = new ContextMenuScreen(_raspiLcd, _jukeBerry, options,
-                                           &_contextMenuReturnValue);
+      _contextMenu.reset(new ContextMenuScreen(_raspiLcd, _jukeBerry, options,
+                                           &_contextMenuReturnValue));
       return;
       //~ _player.play(cf);
     } else {

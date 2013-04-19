@@ -52,6 +52,10 @@ class RaspiLCD {
 
   // Getters
   size_t getMaxCharactersPerLine() const { return MAX_CHARS_PER_LINE; }
+  // gets the displays width
+  size_t getWidth() const { return LCD_WIDTH; }
+  // gets the displays height
+  size_t getHeight() const { return LCD_HEIGHT; }
 
   // Setters
   void setBacklight(bool value);
@@ -61,6 +65,9 @@ class RaspiLCD {
 
   // clears the screen and switches the light of
   void shutdown();
+
+  // returns the width in pixels of the given string in the current font
+  size_t getStringWidth(const string& input) const;
 
  private:
   // the backlight state (on or off)
@@ -78,6 +85,13 @@ class RaspiLCD {
   int _buttonLeft;
   int _buttonRight;
   int _buttonCenter;
+
+  // font stuff
+
+  // these save the hight and width of characters in the current font.
+  // currently only one constant is supported so they are basically constants
+  static const size_t _fontWidth = 6;
+  static const size_t _fontHeight = 8;
 
   // CONSTANTS
   static const size_t LCD_WIDTH = 128;

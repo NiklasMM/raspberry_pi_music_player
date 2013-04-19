@@ -162,3 +162,8 @@ void RaspiLCD::drawRectangle(size_t x1, size_t y1, size_t x2, size_t y2,
 
   LCD_DrawRect(x1, y1, x2, y2, lineWidth);
 }
+
+// _____________________________________________________________________________
+size_t RaspiLCD::getStringWidth(const string& input) const {
+  return input.length() * _fontWidth;
+}

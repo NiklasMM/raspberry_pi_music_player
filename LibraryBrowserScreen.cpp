@@ -26,8 +26,17 @@ void LibraryBrowserScreen::update() {
     // return value
     if (_contextMenuReturnValue != -1) {
       _contextMenu.reset(nullptr);
-      if (_contextMenuReturnValue == 0) _player.play(_currentFiles[_selectedFile]);
-      if (_contextMenuReturnValue == 1) _player.enqueue(_currentFiles[_selectedFile]);
+      switch (_contextMenuReturnValue) {
+        case 0:
+          _player.play(_currentFiles[_selectedFile]);
+          break;
+        case 1:
+          _player.enqueue(_currentFiles[_selectedFile]);
+          break;
+        default:
+          break;
+      }
+      // reset the value
       _contextMenuReturnValue = -1;
       return;
     } else {
@@ -46,7 +55,6 @@ void LibraryBrowserScreen::update() {
   if (_raspiLcd.buttonPressed(CENTER)) {
     const string& cf = _currentFiles[_selectedFile];
     if (cf.substr(cf.length() - 3) == "mp3") {
-      
       vector<string> options = {"Play", "Add to queue", "Cancel"};
       _contextMenu.reset(new ContextMenuScreen(_raspiLcd, _jukeBerry, options,
                                            &_contextMenuReturnValue));

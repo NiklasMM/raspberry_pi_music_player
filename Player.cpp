@@ -107,3 +107,7 @@ void Player::playInAThread(const string& file) {
 
   _playing = false;
 }
+// _____________________________________________________________________________
+const queue<string>& Player::getPlayQueue() const {
+  return _playlist;
+}

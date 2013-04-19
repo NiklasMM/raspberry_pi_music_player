@@ -32,6 +32,9 @@ class Player {
 
   // stop playing a song
   void stop();
+
+  // returns a reference to the playqueue
+  const queue<string>& getPlayQueue() const;
  private:
   // this method will be run as a thread and do the actual playback
   void playInAThread(const string& file);

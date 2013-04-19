@@ -30,10 +30,15 @@ void ContextMenuScreen::draw() {
 
 // _____________________________________________________________________________
 void ContextMenuScreen::update() {
+  if (_raspiLcd.buttonPressed(UP)) {
+    _selectedEntry--;
+    if (_selectedEntry < 0) _selectedEntry = _entries.size() -1;
+    return;
+  }
   if (_raspiLcd.buttonPressed(DOWN)) {
     _selectedEntry++;
     if (_selectedEntry >= static_cast<int>(_entries.size())) _selectedEntry = 0;
-    if (_selectedEntry < 0) _selectedEntry = _entries.size() - 1;
+    return;
   }
   if (_raspiLcd.buttonPressed(CENTER)) *_result = _selectedEntry;
 }

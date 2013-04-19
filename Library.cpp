@@ -15,13 +15,17 @@ using std::cout;
 
 // _____________________________________________________________________________
 Library::Library(const string& basePath){
+  // create a path from the given string
   path baseDir = absolute(basePath);
+  // canonicalize
+  baseDir = boost::filesystem::canonical(baseDir);
+
   try {
     if (exists(baseDir)) {
       if (!is_directory(baseDir)) {
         cout << baseDir << " is not directory!\n";
       }
-      _basepath = basePath;
+      _basepath = baseDir.native();
     }
     else
       cout << baseDir << " does not exist\n";
@@ -46,17 +50,18 @@ const vector<string>& Library::getFileList() const {
 }
 
 // _____________________________________________________________________________
-void Library::cd(int i) {
-  
-  if (i >= static_cast<int>(_currentDirFiles.size())) return;
+int Library::cd(int i) {
+
+  if (i >= static_cast<int>(_currentDirFiles.size())) return 1;
 
   // if i >= 0 switch into deeper directory
   if (i >= 0) {
     // create a path object for the new directory
     path newDir(_currentDirFiles[i]);
+    newDir = boost::filesystem::canonical(newDir);
 
     // return if it is not a directory
-    if (!is_directory(newDir)) return;
+    if (!is_directory(newDir)) return 1;
 
     // push current path to parents
     _parents.push_back(_currentPath);
@@ -65,17 +70,18 @@ void Library::cd(int i) {
     cd(newDir);
   } else { // if i < 0 switch into parent directory
     path parent = _parents.back();
+    // if the parent is "" this is the root directory
+    if (parent == "") return -1;
 
     std::cout << "cahnging into " << parent.native() << std::endl;
 
-    // pop the last element unless this is the base
-    if (_parents.size() > 1) _parents.pop_back();
-
+    // pop the last element
+    _parents.pop_back();
     // actually cd into parent
     cd(parent);
-  }
+    return 0;
+    }
 }
-
 // _____________________________________________________________________________
 void Library::cd(const path& p) {
   

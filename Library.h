@@ -23,7 +23,8 @@ class Library {
 
   // changes into the i-th file of the current directory if it is a directory
   // or to the parent directory if i == -1
-  void cd(int i);
+  // returns 0 if no error, -1 if already in highest dir, 1 if other error
+  int cd(int i);
 
  private:
   // the base path of the library

@@ -59,7 +59,6 @@ void LibraryBrowserScreen::update() {
       _contextMenu.reset(new ContextMenuScreen(_raspiLcd, _jukeBerry, options,
                                            &_contextMenuReturnValue));
       return;
-      //~ _player.play(cf);
     } else {
       _library.cd(_selectedFile);
       updateCurrentFiles();
@@ -70,7 +69,13 @@ void LibraryBrowserScreen::update() {
 
   // if left button is pressed go one directory up
   if (_raspiLcd.buttonPressed(LEFT)) {
-    _library.cd(-1);
+    int returnValue = _library.cd(-1);
+    // if cd returns -1 the user has pressed up from the highest dir
+    // -> return to main menu
+    if (returnValue == -1) {
+      _jukeBerry->changeToScreen(SC_MainMenu);
+      return;
+    }    
     updateCurrentFiles();
   }
 

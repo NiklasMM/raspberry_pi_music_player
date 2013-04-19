@@ -40,86 +40,11 @@ void RaspiLCD::setBacklight(bool value) {
 }
 
 // _____________________________________________________________________________
-size_t RaspiLCD::GetRaspberryHwRevision()
-{	
-	ifstream file("/proc/cpuinfo");
-	string line;
-
-  // iterate over lines of the file
-	while(true)
-	{
-    getline(file, line);
-    if (file.eof()) break;
-
-    // find the line containing "Revision"
-    if (line.find("Revision") != string::npos) {
-      string rev = line.substr(line.find(':') + 1);
-      return static_cast<size_t>(atoi(rev.c_str()));
-    }
-  }
-	return 0;
-}
-
-// _____________________________________________________________________________
 void RaspiLCD::clear() {
   // iterate over entries in the framebuffer and zero them
   for (size_t i = 0; i < _framebuffer.size(); i++)
     for (size_t j = 0; j < _framebuffer.size(); j++)
       _framebuffer[i][j] = 0;
-}
-
-// _____________________________________________________________________________
-void RaspiLCD::putPixel(size_t x, size_t y, size_t color) {
-	if((x < LCD_WIDTH) && (y < LCD_HEIGHT))
-	{
-		if(color)	_framebuffer[x][y>>3] |=   (1<<(y & 7));
-			else	_framebuffer[x][y>>3] &=  ~(1<<(y & 7));
-	}
-}
-
-
-// _____________________________________________________________________________
-void RaspiLCD::lcd_write_data(uint8 d) {
-	bcm2835_gpio_clr(PIN_LCD_CS);
-  bcm2835_gpio_set(PIN_LCD_RS);			// Data Mode
-	spiPutc(d);
-	//~ LCD_SPI_WAIT_BUSY;
-	bcm2835_gpio_set(PIN_LCD_CS);
-}
-
-// _____________________________________________________________________________
-void RaspiLCD::lcd_write_cmd(uint8 d)
-{
-	bcm2835_gpio_clr(PIN_LCD_CS);
-	bcm2835_gpio_clr(PIN_LCD_RS);			// Command Mode
-	spiPutc(d);
-	//~ LCD_SPI_WAIT_BUSY;
-	bcm2835_gpio_set(PIN_LCD_CS);
-}
-
-// _____________________________________________________________________________
-void RaspiLCD::spiPutc(unsigned char d)
-{
-	int i,n;
-	
-	for(i=0;i<8;i++)
-	{
-		if(d & 0x80)	bcm2835_gpio_set(PIN_LCD_MOSI);		// MOSI = 1
-			else		bcm2835_gpio_clr(PIN_LCD_MOSI);		// MOSI = 0
-		d <<= 1;
-		
-		for(n=0;n<4;n++) bcm2835_gpio_clr(PIN_LCD_SCLK); 	// CLK = 0
-		for(n=0;n<4;n++) bcm2835_gpio_set(PIN_LCD_SCLK);	// CLK = 1
-	}
-}
-
-// _____________________________________________________________________________
-void RaspiLCD::lcd_set_xy(uint8 x,uint8 ypage)
-{
-	x += LCD_X_OFFSET;
-	lcd_write_cmd(0x00 + (x & 0x0F));
-	lcd_write_cmd(0x10 + ((x>>4) & 0x0F));
-	lcd_write_cmd(0xB0 + (ypage & 0x07));
 }
 
 // _____________________________________________________________________________
@@ -211,8 +136,7 @@ void RaspiLCD::drawLine(size_t x1, size_t y1, size_t x2, size_t y2,
   // check if the points are inside the display
   if (x1 > 128 || x2 > 128 || y1 > 64 || y2 > 64) return;
   LCD_SetPenColor(color);
-  LCD_DrawLine(static_cast<uint8>(x1), static_cast<uint8>(y1),
-               static_cast<uint8>(x2), static_cast<uint8>(y2));
+  LCD_DrawLine(x1, y1, x2, y2);
 }
 
 // _____________________________________________________________________________

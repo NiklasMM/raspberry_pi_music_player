@@ -10,3 +10,8 @@ Screen::Screen(RaspiLCD& display, JukeBerry* jb) :
 
 // _____________________________________________________________________________
 Screen::~Screen() {}
+
+// _____________________________________________________________________________
+void Screen::printTitle(const string& title) const {
+  
+}

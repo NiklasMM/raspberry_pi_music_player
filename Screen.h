@@ -26,6 +26,10 @@ class Screen {
   // drawing
   RaspiLCD& _raspiLcd;
 
+  // nicely prints a title to the LCD, that is the passed String centered
+  // on top of the screen and a divider line below it
+  void printTitle(const string& title) const;
+
   JukeBerry* _jukeBerry;
 };
 

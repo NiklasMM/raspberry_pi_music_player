@@ -4,6 +4,9 @@
 #ifndef JUKEBERRY_CFUNCTIONS_H_
 #define JUKEBERRY_CFUNCTIONS_H_
 
+typedef unsigned short uint16;
+typedef unsigned char uint8;
+
 // these are the C functions from lcd.h and raspilcd.h which are used in the
 // C++ code of the project
 extern "C" {

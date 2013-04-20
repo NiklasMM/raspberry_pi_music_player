@@ -19,7 +19,7 @@ using std::string;
 using std::vector;
 using std::map;
 
-enum ScreenEnum {SC_MainMenu, SC_Library, SC_Playlist};
+enum ScreenEnum {SC_MainMenu, SC_Library, SC_Player};
 
 // This is the main class of the JukeBerry Project. It holds an instance of
 // classes like RaspiLCD and Library and manages them.

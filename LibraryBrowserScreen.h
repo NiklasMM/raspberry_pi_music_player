@@ -23,6 +23,10 @@ class LibraryBrowserScreen: public Screen {
   virtual void update();
   // implementation of the draw method
   virtual void draw();
+
+  // takes a string and returns the part after the last "/"
+  static string getFileNameFromPath(const string& path);
+  
  private:
   // requests the files in the current directory from the Library and
   // updates _currentFiles

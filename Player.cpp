@@ -7,12 +7,13 @@
 #include <mpg123.h>
 #include <iostream>
 
+#include "./LibraryBrowserScreen.h"
 #include "./Player.h"
 
 
 // _____________________________________________________________________________
 Player::Player() :
- _stopFlag(false), _playing(false), _playerThread(nullptr) {
+ _stopFlag(false), _playing(false), _currentSong(""), _playerThread(nullptr) {
 
 }
 
@@ -22,6 +23,8 @@ void Player::play(const string& file) {
   _playing = true;
   // create thread
   std::cout << "playing: " << file << std::endl;
+
+  _currentSong = LibraryBrowserScreen::getFileNameFromPath(file);
   _playerThread.reset(new std::thread(&Player::playInAThread, this,  file));
 }
 
@@ -110,4 +113,13 @@ void Player::playInAThread(const string& file) {
 // _____________________________________________________________________________
 const queue<string>& Player::getPlayQueue() const {
   return _playlist;
+}
+
+// _____________________________________________________________________________
+bool Player::getCurrentSong(string& name) const {
+  // return false if nothing is being played
+  if (!_playing.load()) return false;
+
+  name = _currentSong;
+  return true;
 }

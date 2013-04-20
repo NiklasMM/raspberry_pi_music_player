@@ -10,6 +10,7 @@ MainMenuScreen::MainMenuScreen(RaspiLCD& display, JukeBerry* jb) :
   Screen(display, jb), _selectedEntry(0) {
     // initialize Menu Options
     _menuEntries.push_back("Library Browser");
+    _menuEntries.push_back("Player");
     _menuEntries.push_back("Exit");
 }
 
@@ -29,6 +30,9 @@ void MainMenuScreen::update() {
         _jukeBerry->changeToScreen(SC_Library);
         break;
       case 1:
+        _jukeBerry->changeToScreen(SC_Player);
+        break;
+      case 2:
         _jukeBerry->requestTermination();
         break;
       default:

@@ -11,6 +11,7 @@
 #include "./Library.h"
 #include "./LibraryBrowserScreen.h"
 #include "./MainMenuScreen.h"
+#include "./PlayerScreen.h"
 
 // _____________________________________________________________________________
 JukeBerry::JukeBerry(const string& path) :
@@ -18,6 +19,7 @@ JukeBerry::JukeBerry(const string& path) :
   // create a new LibraryBrowserScreen and set it as active
   _screens[SC_Library] = new LibraryBrowserScreen(_display, this, _library, _player);
   _screens[SC_MainMenu] = new MainMenuScreen(_display, this);
+  _screens[SC_Player] = new PlayerScreen(_display, this, _player);
   _activeScreen = SC_MainMenu;
 }
 

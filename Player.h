@@ -33,6 +33,10 @@ class Player {
   // stop playing a song
   void stop();
 
+  // returns true if a song is playing and puts the name into the "name"
+  // variable
+  bool getCurrentSong(string& name) const;
+
   // returns a reference to the playqueue
   const queue<string>& getPlayQueue() const;
  private:
@@ -42,7 +46,11 @@ class Player {
   // if this flag is set to true, the player thread will stop playing
   std::atomic_bool _stopFlag;
 
+  // this variable is true if a song is being played and false otherwise
   std::atomic_bool _playing;
+
+  // the name of the song currently played
+  string _currentSong;
 
   // a pointer to the player thread, i.e. the actuall decoding and playing
   // of the mp3 happens here

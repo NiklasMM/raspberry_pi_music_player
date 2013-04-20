@@ -124,9 +124,7 @@ void LibraryBrowserScreen::updateCurrentFiles() {
     _currentFiles.push_back(files[i]);
     // process the displayed string:
     // first remove the path
-    size_t lastFileSeparator = files[i].find_last_of("/");
-    if (lastFileSeparator == string::npos) lastFileSeparator = 0;
-    string displayedString = files[i].substr(lastFileSeparator + 1);
+    string displayedString = getFileNameFromPath(files[i]);
     _displayedFiles.push_back(
       displayedString.substr(0, _raspiLcd.getMaxCharactersPerLine()));
     std::cout << _displayedFiles.back() << std::endl;
@@ -135,4 +133,12 @@ void LibraryBrowserScreen::updateCurrentFiles() {
   // reset last scroll time
   _lastScrollTime = high_resolution_clock::now();
   _lastScrollPos = 0;
+}
+
+string LibraryBrowserScreen::getFileNameFromPath(const string& path) {
+  size_t lastFileSeparator = path.find_last_of("/");
+  // if no file separator is found return the original string
+  if (lastFileSeparator == string::npos) return path;
+  // otherwise return the filename
+  return path.substr(lastFileSeparator + 1);
 }
